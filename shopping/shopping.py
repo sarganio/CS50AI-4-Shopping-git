@@ -60,18 +60,18 @@ def load_data(filename):
     is 1 if Revenue is true, and 0 otherwise.
     """
     def monthNameToNum(monthName):
-        months = {"Jan":0,
-                  "Feb":1,
-                  "Mar":2,
-                  "Apr":3,
-                  "May":4,
-                  "June":5,
-                  "Jul":6,
-                  "Aug":7,
-                  "Sep":8,
-                  "Oct":9,
-                  "Nov":10,
-                  "Dec":11,
+        months = {"Jan": 0,
+                  "Feb": 1,
+                  "Mar": 2,
+                  "Apr": 3,
+                  "May": 4,
+                  "June": 5,
+                  "Jul": 6,
+                  "Aug": 7,
+                  "Sep": 8,
+                  "Oct": 9,
+                  "Nov": 10,
+                  "Dec": 11,
                   }
         return months[monthName]
     evidence = []
@@ -86,9 +86,9 @@ def load_data(filename):
             currentUserData = []
             for i, cellVal in enumerate(row):
                 # 0 - Administrative, 2 - Informational,  4- ProductRelated, 11 -OperatingSystems, 12 - Browser, 13 - Region, 14 - TrafficType
-                if i in (0,2,4,11,12,13,14):
+                if i in (0, 2, 4, 11, 12, 13, 14):
                     currentUserData.append(int(cellVal))
-                #10 - Month
+                # 10 - Month
                 elif i == 10:
                     currentUserData.append(monthNameToNum(cellVal))
                 # 15 - VisitorType
@@ -105,9 +105,6 @@ def load_data(filename):
                     currentUserData.append(float(cellVal))
             # add all current user data to evidence list
             evidence.append(currentUserData)
-            #print(evidence)
-            #print(lables)
-            #input()
         return (evidence, lables)
 
 
@@ -120,7 +117,6 @@ def train_model(evidence, labels):
     modelClassifier.fit(evidence, labels)
     return modelClassifier
     
-
 
 def evaluate(labels, predictions):
     """
@@ -138,7 +134,7 @@ def evaluate(labels, predictions):
     actual negative labels that were accurately identified.
     """
     truePositive = float(0)
-    falseNegative  = float(0)
+    falseNegative = float(0)
     trueNegative = float(0)
     falsePositive = float(0)
 
@@ -152,12 +148,11 @@ def evaluate(labels, predictions):
         # False
         else:
             if prediction == True:
-                falsePositive +=1
+                falsePositive += 1
             else:
-                falseNegative +=1
+                falseNegative += 1
 
-    return (truePositive/(falseNegative+truePositive),trueNegative/(falsePositive+trueNegative))
-
+    return (truePositive/(falseNegative+truePositive), trueNegative/(falsePositive+trueNegative))
 
 
 if __name__ == "__main__":
