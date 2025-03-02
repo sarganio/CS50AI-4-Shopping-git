@@ -59,7 +59,56 @@ def load_data(filename):
     labels should be the corresponding list of labels, where each label
     is 1 if Revenue is true, and 0 otherwise.
     """
-    raise NotImplementedError
+    def monthNameToNum(monthName):
+        months = {"Jan":0,
+                  "Feb":1,
+                  "Mar":2,
+                  "Apr":3,
+                  "May":4,
+                  "Jun":5,
+                  "Jul":6,
+                  "Aug":7,
+                  "Sep":8,
+                  "Oct":9,
+                  "Nov":10,
+                  "Dec":11,
+                  }
+        return months[monthName]
+    evidence = []
+    lables = []
+    with open(filename, 'r') as dataFile:
+        # create a csv reader
+        dataReader = csv.reader(dataFile)
+        # discard the fileds name (first row in file) 
+        next(dataReader)
+
+        for row in dataReader:
+            currentUserData = []
+            for i, cellVal in enumerate(row):
+                # 0 - Administrative, 2 - Informational,  4- ProductRelated, 11 -OperatingSystems, 12 - Browser, 13 - Region, 14 - TrafficType
+                if i in (0,2,4,11,12,13,14):
+                    currentUserData.append(int(cellVal))
+                #10 - Month
+                elif i == 10:
+                    currentUserData.append(monthNameToNum(cellVal))
+                # 15 - VisitorType
+                elif i == 15:
+                    currentUserData.append(int(cellVal == "Returning_Visitor"))
+                # 16 - Weekend
+                elif i == 16:
+                    currentUserData.append((int(cellVal == "TRUE")))
+                # 17 - Revenue
+                elif i == 17:
+                    lables.append((int(cellVal == "TRUE")))
+                # 1 - Administrative_Duration, 3 - Informational_Duration, 5 - ProductRelated_Duration, 6 - BounceRates, 7 - ExitRates, 8 - PageValues, 9 - SpecialDay
+                else:
+                    currentUserData.append(float(cellVal))
+            # add all current user data to evidence list
+            evidence.append(currentUserData)
+            #print(evidence)
+            #print(lables)
+            #input()
+        return (evidence, lables)
 
 
 def train_model(evidence, labels):
