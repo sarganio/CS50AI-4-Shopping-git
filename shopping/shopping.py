@@ -146,7 +146,7 @@ def evaluate(labels, predictions):
                 sensitivity += 1
             else:
                 specificity += 1
-    return (sensitivity/len(labels),specificity/len(labels))
+    return (sensitivity/len(predictions),specificity/len(predictions))
 
 
 
