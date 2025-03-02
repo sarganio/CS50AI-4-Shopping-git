@@ -137,16 +137,26 @@ def evaluate(labels, predictions):
     representing the "true negative rate": the proportion of
     actual negative labels that were accurately identified.
     """
-    sensitivity = float(0)
-    specificity = float(0)
+    truePositive = float(0)
+    falseNegative  = float(0)
+    trueNegative = float(0)
+    falsePositive = float(0)
 
     for prediction, lable in zip(predictions, labels):
+        # True
         if prediction == lable:
             if prediction == True:
-                sensitivity += 1
+                truePositive += 1
             else:
-                specificity += 1
-    return (sensitivity/len(predictions),specificity/len(predictions))
+                trueNegative += 1
+        # False
+        else:
+            if prediction == True:
+                falsePositive +=1
+            else:
+                falseNegative +=1
+
+    return (truePositive/(falseNegative+truePositive),trueNegative/(falsePositive+trueNegative))
 
 
 
